@@ -2,27 +2,33 @@
   <div class="my-auto" id="skills-content">
     <h2 class="mb-5">Skills</h2>
     {{ range $.Site.Data.skills }}
-        <div class="subheading mb-3 skills-heading">{{ .grouping }}</div>
-            <ul>
-            {{ range .skills }}
-                {{ if isset . "name" }}
-                    {{ $devicon := cond (in $.Site.Data.devicons (lower .icon)) (lower .icon) (cond (in $.Site.Data.devicons (lower .name)) (lower .name) "terminal_badge") }}
-                    <li class="list-inline-item">
-                      <i class="devicons devicons-{{ $devicon }}"></i>
-                      {{if isset . "link"}}
-                          <a href="{{.link}}">{{ .name }}</a>
-                      {{ else }}
-                          {{ .name }}
-                      {{ end }}
-                    </li>
-                {{ else }}
-                  <li class="list-inline-item">
-                    <i class="devicons devicons-{{ cond (in $.Site.Data.devicons (lower .)) (lower .) "terminal_badge" }}"></i>
-                    {{ . }}
-                  </li>
-                {{ end }}
-            {{ end }}
-            </ul>
+    <div class="subheading mb-3 skills-heading">{{ .grouping }}</div>
+    <ul>
+      {{ range .skills }}
+      {{ if isset . "name" }}
+      <li class="list-inline-item">
+        {{ if isset . "icon" }}
+        <i class="{{ .icon }}"></i>
+        {{ else if isset . "svg" }}
+        <img src="{{ .svg }}" alt="" class="svg-icon" height="16" style="fill: #848e95;">
+        {{ else }}
+        <i class="devicons devicons-terminal"></i>
+        {{ end }}
+        {{if isset . "link"}}
+        <a href="{{.link}}">{{ .name }}</a>
+        {{ else }}
+        {{ .name }}
+        {{ end }}
+      </li>
+      {{ else }}
+      <li class="list-inline-item">
+        <i class="devicons devicons-terminal"></i>
+        {{ . }}
+      </li>
+      {{ end }}
+      {{ end }}
+
+    </ul>
     {{ end }}
   </div>
 </section>
